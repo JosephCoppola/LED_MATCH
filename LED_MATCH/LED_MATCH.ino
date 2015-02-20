@@ -7,9 +7,9 @@ int r2 = 3;
 int s1 = A0;
 int s2 = A1;
 int s3 = A2;
-int r1State;
-int g1State;
-int b1State;
+int rState;
+int gState;
+int bState;
 int redAnswer;
 int greenAnswer;
 int blueAnswer;
@@ -48,9 +48,9 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  r1State = analogRead(s1);
-  g1State = analogRead(s2);
-  b1State = analogRead(s3);
+  rState = analogRead(s1);
+  gState = analogRead(s2);
+  bState = analogRead(s3);
   
   int anValR = r1State/4;
   int anValG = g1State/4;
@@ -83,6 +83,15 @@ void loop() {
   {
     blueCorrect = false;
   }
+  
+  if(redCorrect && greenCorrect && blueCorrect)
+  {
+    correctAnswer();
+    redCorrect = false;
+    greenCorrect = false;
+    blueCorrect = false;
+    setRandomColorAnswer();
+  }
 }
 
 void setUserColor(int red, int green, int blue)
@@ -105,38 +114,53 @@ void setRandomColorAnswer()
   greenAnswer = random(-180,255);
   blueAnswer = random(-180,255);
   
+  int possibleWhite = 0;
+  
   if(redAnswer < 0)
   {
     redAnswer = 0;
+  }
+  else if(redAnswer > 200)
+  {
+    possibleWhite++;
   }
   if(greenAnswer < 0)
   {
     greenAnswer = 0;
   }
+  else if(greenAnswer > 200)
+  {
+    possibleWhite++;
+  }
   if(blueAnswer < 0)
   {
     blueAnswer = 0;
+  }
+  else if(blueAnswer > 200)
+  {
+    possibleWhite++;
+  }
+
+  if(possibleWhite == 3)
+  {
+    int randomColorToZero = random(0,2);
+    
+    switch(randomColorToZero)
+    {
+      case 0: redAnswer = 0; break;
+      case 1: greenAnswer = 0; break;
+      case 2: blueAnswer = 0; break;
+      default:
+    }
   }
 }
 
 void correctAnswer()
 {
-  setUserColor(0,255,0);
-  setGuessColor(0,255,0);
-  delay(100);
-  setUserColor(0,0,0);
-  setGuessColor(0,0,0);
-  delay(100);
-  setUserColor(0,255,0);
-  setGuessColor(0,255,0);
-  delay(100);
-  setUserColor(0,0,0);
-  setGuessColor(0,0,0);
-  delay(100);
-  setUserColor(0,255,0);
-  setGuessColor(0,255,0);
-  delay(100);
-  setUserColor(0,0,0);
-  setGuessColor(0,0,0);
-  delay(100);
+  for(int i = 0; i < 6; i++)
+  {
+    setUserColor(0,255,0);
+    setGuessColor(0,255,0);
+    delay(100);
+  }  
 }
