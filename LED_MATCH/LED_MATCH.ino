@@ -133,7 +133,7 @@ void setRandomColorAnswer()
   {
     redAnswer = 0;
   }
-  else if(redAnswer > 200)
+  else if(redAnswer > 100)
   {
     possibleWhite++;
   }
@@ -141,7 +141,7 @@ void setRandomColorAnswer()
   {
     greenAnswer = 0;
   }
-  else if(greenAnswer > 200)
+  else if(greenAnswer > 100)
   {
     possibleWhite++;
   }
@@ -149,7 +149,7 @@ void setRandomColorAnswer()
   {
     blueAnswer = 0;
   }
-  else if(blueAnswer > 200)
+  else if(blueAnswer > 100)
   {
     possibleWhite++;
   }
@@ -172,20 +172,20 @@ void correctAnswer()
 {
     setUserColor(0,255,0);
     setGuessColor(0,255,0);
-    delay(1000);
+    delay(750);
     setUserColor(0,0,0);
     setGuessColor(0,0,0);
-    delay(1000);
+    delay(750);
     setUserColor(0,255,0);
     setGuessColor(0,255,0);
-    delay(1000);
+    delay(750);
     setUserColor(0,0,0);
     setGuessColor(0,0,0);
-    delay(1000);
+    delay(750);
     setUserColor(0,255,0);
     setGuessColor(0,255,0);
-    delay(1000);
+    delay(750);
     setUserColor(0,0,0);
     setGuessColor(0,0,0);
-    delay(1000);
+    delay(750);
 }
