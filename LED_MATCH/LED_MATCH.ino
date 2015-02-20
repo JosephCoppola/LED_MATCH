@@ -4,12 +4,18 @@ int r1 = 9;
 int g2 = 6;
 int b2 = 5;
 int r2 = 3;
-int s1 = A3;
-int s2 = A4;
-int s3 = A5;
-int r1State = 0;
-int g1State = 0;
-int b1State = 0;
+int s1 = A0;
+int s2 = A1;
+int s3 = A2;
+int r1State;
+int g1State;
+int b1State;
+int redAnswer;
+int greenAnswer;
+int blueAnswer;
+boolean redCorrect;
+boolean greenCorrect;
+boolean blueCorrect;
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -23,6 +29,20 @@ void setup() {
   pinMode(s1, INPUT);
   pinMode(s2, INPUT);
   pinMode(s3, INPUT);
+  
+  r1State = 0;
+  g1State = 0;
+  b1State = 0;
+  redAnswer = 0;
+  greenAnswer = 0;
+  blueAnswer = 0;
+  
+  redCorrect = false;
+  greenCorrect = false;
+  blueCorrect = false;
+  
+  randomSeed(analogRead(5));
+  
   Serial.begin(9600);
 }
 
@@ -36,28 +56,40 @@ void loop() {
   int anValG = g1State/4;
   int anValB = b1State/4;
   
-  Serial.println(anValG);
+  setUserColor(anValR,anValG,anValB);
+  setGuessColor(redAnswer,greenAnswer,blueAnswer);
   
-  analogWrite(r2,anValR);
-  analogWrite(g2,anValG);
-  analogWrite(b2,anValB);
-  
-  setGuessColor(255, 0, 255);  // red
-  
-  
-  
-  /*
-  setColor(0, 255, 0);  // green
-  delay(1000);
-  setColor(0, 0, 255);  // blue
-  delay(1000);
-  setColor(255, 255, 0);  // yellow
-  delay(1000);  
-  setColor(80, 0, 80);  // purple
-  delay(1000);
-  setColor(0, 255, 255);  // aqua
-  delay(1000);
-  */
+  if(anValR >= redAnswer - 20 && anValR <= redAnswer + 20)
+  {
+    redCorrect = true;
+  }
+  else
+  {
+    redCorrect = false;
+  }
+  if(anValG >= greenAnswer - 20 && anValG <= greenAnswer + 20)
+  {
+    greenCorrect = true;
+  }
+  else
+  {
+    greenCorrect = false;
+  }
+  if(anValB >= blueAnswer - 20 && anValB <= blueAnswer + 20)
+  {
+    blueCorrect = true;
+  }
+  else
+  {
+    blueCorrect = false;
+  }
+}
+
+void setUserColor(int red, int green, int blue)
+{
+  analogWrite(r2,red);
+  analogWrite(g2,green);
+  analogWrite(b2,blue);
 }
  
 void setGuessColor(int red, int green, int blue)
@@ -65,4 +97,46 @@ void setGuessColor(int red, int green, int blue)
   analogWrite(r1, red);
   analogWrite(g1, green);
   analogWrite(b1, blue);  
+}
+
+void setRandomColorAnswer()
+{
+  redAnswer = random(-180,255);
+  greenAnswer = random(-180,255);
+  blueAnswer = random(-180,255);
+  
+  if(redAnswer < 0)
+  {
+    redAnswer = 0;
+  }
+  if(greenAnswer < 0)
+  {
+    greenAnswer = 0;
+  }
+  if(blueAnswer < 0)
+  {
+    blueAnswer = 0;
+  }
+}
+
+void correctAnswer()
+{
+  setUserColor(0,255,0);
+  setGuessColor(0,255,0);
+  delay(100);
+  setUserColor(0,0,0);
+  setGuessColor(0,0,0);
+  delay(100);
+  setUserColor(0,255,0);
+  setGuessColor(0,255,0);
+  delay(100);
+  setUserColor(0,0,0);
+  setGuessColor(0,0,0);
+  delay(100);
+  setUserColor(0,255,0);
+  setGuessColor(0,255,0);
+  delay(100);
+  setUserColor(0,0,0);
+  setGuessColor(0,0,0);
+  delay(100);
 }
